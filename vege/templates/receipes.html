@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block start %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" integrity="sha384-PJsj/BTMqILvmcej7ulplguok8ag4xFTPryRq8xevL7eBYSmpXKcbNVuy+P0RMgq" crossorigin="anonymous">
+
+<div class="container mt-5">
+    <!-- method post help to send the date from front-end to backend and the name should be given and the enctype should be given with "multipart/form-data" -->
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data"> 
+        {% csrf_token %}
+        <h2>Add Receipe</h2>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+          <input type="text" required name="receipe_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Receipe description</label>
+          <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+          <textarea class="form-control" name="receipe_description" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Receipe Image</label>
+            <!-- <input type="password" class="form-control" id="exampleInputPassword1"> -->
+            <input type="file" class="form-control" name="receipe_image">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Receipe</button>
+    </form>
+    
+    <hr>
+    <div class="mt-5">
+      <div class="mx-auto col-6">
+
+        <form>
+          
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Search Food</label>
+            <input type="text" name="search" class="form-control">
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- {{receipes}} -->
+    <table class="table mt">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Receipe Name</th>
+            <th scope="col">Receipe Description</th>
+            <th scope="col">Recepie Image</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for receipe in receipes %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{receipe.receipe_name}}</td>
+            <td>{{receipe.receipe_description}}</td>
+            <td><img src="/media/{{receipe.receipe_image}}" style="height: 150px;"></td>
+            <td>
+              <a href="/delete-receipe/{{receipe.id}}" class="btn btn-danger m-2">Delete</a>
+              <a href="/update-receipe/{{receipe.id}}" class="btn btn-success">Update</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+{% endblock %}
